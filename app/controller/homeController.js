@@ -8,7 +8,19 @@ class HomeController{
             name:"John Doe",
             age:30
         }
-        res.send(`Welcome to Home page. User: ${user.name}, Age: ${user.age}`)
+        res.render('home',{
+            title:"Home Page",
+            user:user
+        });
+    }
+
+
+
+    async about(req,res){
+        res.render('about',{
+            title:"About Us Page"
+
+        });
     }
 }
 

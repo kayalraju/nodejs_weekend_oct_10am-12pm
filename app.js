@@ -1,20 +1,14 @@
 require('dotenv').config();
 const express = require('express');
+const ejs=require('ejs');
+const path = require('path');
+
 const app = express();
-
-//http request methods are get, post, put/patch, delete
-// app.get('/',(req,res)=>{
-//     res.send('Hello World!');
-// })
-
-// app.get('/about',(req,res)=>{
-//     res.send('About Us Page');
-// })
-
-// app.get('/contact',(req,res)=>{
-//     res.send('Contact Us Page');
-// })
-
+//setup view engine
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+//define static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 const homeRoute=require('./app/routes/homeRoute')
 app.use(homeRoute);
