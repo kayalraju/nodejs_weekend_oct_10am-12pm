@@ -14,6 +14,7 @@ connectDB();
 
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 //setup view engine
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -26,6 +27,9 @@ app.use(homeRoute);
 
 const studentApiRoute=require('./app/routes/studenApi')
 app.use('/api',studentApiRoute);
+
+const studentEjsRoute=require('./app/routes/studentEjsRoute')
+app.use(studentEjsRoute);
 
 const PORT=process.env.PORT || 3006;
 app.listen(PORT, () => {
