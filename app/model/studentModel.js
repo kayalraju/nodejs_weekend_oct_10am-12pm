@@ -20,6 +20,10 @@ const studentSchema= new Schema({
     address: {
         type: String,
         required: true
+    },
+    image: {
+        type: String,
+        default: 'no-image.jpg'
     }
 
 },{

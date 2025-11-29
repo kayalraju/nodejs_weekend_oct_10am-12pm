@@ -20,6 +20,8 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 //define static folder
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
+app.use('/uploads',express.static('uploads'));
 
 const homeRoute=require('./app/routes/homeRoute')
 app.use(homeRoute);
