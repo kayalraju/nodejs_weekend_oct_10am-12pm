@@ -29,6 +29,8 @@ app.use(homeRoute);
 
 const studentApiRoute=require('./app/routes/studenApi')
 app.use('/api',studentApiRoute);
+const IndexingRoute=require('./app/routes/indexingRouter')
+app.use(IndexingRoute); 
 
 const studentEjsRoute=require('./app/routes/studentEjsRoute')
 app.use(studentEjsRoute);
