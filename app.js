@@ -26,6 +26,8 @@ app.use('/uploads',express.static('uploads'));
 const homeRoute=require('./app/routes/homeRoute')
 app.use(homeRoute);
 
+const authRoute=require('./app/routes/authRouter')
+app.use('/api',authRoute);
 
 const studentApiRoute=require('./app/routes/studenApi')
 app.use('/api',studentApiRoute);
