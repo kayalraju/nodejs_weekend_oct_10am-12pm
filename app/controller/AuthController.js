@@ -1,10 +1,11 @@
 const { hashedPassword, comparePassword } = require("../helper/authHelper");
 const { statusCodes } = require("../helper/statusCode");
 const jwt=require('jsonwebtoken')
-
+const transporter = require("../utils/emailConfig");
 const User=require('../model/user');
 const sendEmailVerificationOTP = require("../utils/sendMail");
 const OtpModel=require('../model/otpModel')
+const bcrypt=require('bcryptjs')
 
 class AuthController{
 
@@ -156,7 +157,75 @@ class AuthController{
         }
     }
 
+    async resetPasswordLink(req,res){
+       try{
+        const { email } = req.body;
+        if (!email) {
+          return res.status(400).json({ status:false, message: "Email field is required" });
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+          return res.status(404).json({ status:false, message: "Email doesn't exist" });
+        }
+        // Generate token for password reset
+        const secret = user._id + process.env.JWT_SECRECT;
+        const tokenLink = jwt.sign({ userID: user._id }, secret, { expiresIn: '20m' });
+        // Reset Link and this link generate by frontend developer
+        const resetLink = `${process.env.FRONTEND_HOST}/account/reset-password-confirm/${user._id}/${tokenLink}`;
+        console.log(resetLink);
+        // Send password reset email  
+        await transporter.sendMail({
+          from: process.env.EMAIL_FROM,
+          to: user.email,
+          subject: "Password Reset Link",
+          html: `<p>Hello ${user.name},</p><p>Please <a href="${resetLink}">Click here</a> to reset your password.</p>`
+        });
+        // Send success response
+        res.status(200).json({ status:true, message: "Password reset email sent. Please check your email." });
+  
+      }catch(error){
+        console.log(error);
+        res.status(500).json({ status:false, message: "Unable to send password reset email. Please try again later." });
+  
+      }
+    }
+
+
+    async resetPassword(req,res){
+         try{
+        const { password, confirm_password } = req.body;
+       const { id, token } = req.params;
+       const user = await User.findById(id);
+       if (!user) {
+         return res.status(StatusCode.BAD_REQUEST).json({ status:false, message: "User not found" });
+       }
+       // Validate token check 
+       const new_secret = user._id + process.env.JWT_SECRECT;
+       jwt.verify(token, new_secret);
+ 
+       if (!password || !confirm_password) {
+         return res.status(400).json({ status:false, message: "New Password and Confirm New Password are required" });
+       }
+ 
+       if (password !== confirm_password) {
+         return res.status(400).json({ status:false, message: "New Password and Confirm New Password don't match" });
+       }
+        // Generate salt and hash new password
+        const salt = await bcrypt.genSalt(10);
+        const newHashPassword = await bcrypt.hash(password, salt);
+  
+        // Update user's password
+        await User.findByIdAndUpdate(user._id, { $set: { password: newHashPassword } });
+  
+        // Send success response
+        res.status(200).json({ status: "success", message: "Password reset successfully" });
+  
+     }catch(error){
+       return res.status(500).json({ status: "failed", message: "Unable to reset password. Please try again later." });
+     }
 }
+    }
+
 
 
 
