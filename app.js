@@ -37,6 +37,9 @@ app.use(IndexingRoute);
 const studentEjsRoute=require('./app/routes/studentEjsRoute')
 app.use(studentEjsRoute);
 
+const csvroute=require('./app/routes/csvRoute')
+app.use('/api',csvroute);   
+
 const PORT=process.env.PORT || 3006;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
