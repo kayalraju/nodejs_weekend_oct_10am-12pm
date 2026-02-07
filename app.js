@@ -26,6 +26,10 @@ app.use('/uploads',express.static('uploads'));
 const homeRoute=require('./app/routes/homeRoute')
 app.use(homeRoute);
 
+
+const comparisonRoute=require('./app/routes/ComparisonRoute')
+app.use(comparisonRoute);
+
 const authRoute=require('./app/routes/authRouter')
 app.use('/api',authRoute);
 
