@@ -3,16 +3,23 @@ const express = require('express');
 const ejs=require('ejs');
 const path = require('path');
 const connectDB = require('./app/config/db');
-
+const cors=require('cors');
+const helmet=require('helmet');
+const morgan=require('morgan');
+const Limiter=require('./app/utils/rateLimit')
 
 
 
 const app = express();
-
-//call db
 connectDB();
 
+app.use(helmet());
+//call db
+app.use(Limiter);
 
+app.use(cors());
+
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //setup view engine
@@ -23,26 +30,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 app.use('/uploads',express.static('uploads'));
 
-const homeRoute=require('./app/routes/homeRoute')
-app.use(homeRoute);
+// const homeRoute=require('./app/routes/homeRoute')
+// app.use(homeRoute);
 
 
-const comparisonRoute=require('./app/routes/ComparisonRoute')
-app.use(comparisonRoute);
+// const comparisonRoute=require('./app/routes/ComparisonRoute')
+// app.use(comparisonRoute);
 
-const authRoute=require('./app/routes/authRouter')
-app.use('/api',authRoute);
+// const authRoute=require('./app/routes/authRouter')
+// app.use('/api',authRoute);
 
-const studentApiRoute=require('./app/routes/studenApi')
-app.use('/api',studentApiRoute);
-const IndexingRoute=require('./app/routes/indexingRouter')
-app.use(IndexingRoute); 
+// const studentApiRoute=require('./app/routes/studenApi')
+// app.use('/api',studentApiRoute);
+// const IndexingRoute=require('./app/routes/indexingRouter')
+// app.use(IndexingRoute); 
 
-const studentEjsRoute=require('./app/routes/studentEjsRoute')
-app.use(studentEjsRoute);
+// const studentEjsRoute=require('./app/routes/studentEjsRoute')
+// app.use(studentEjsRoute);
 
-const csvroute=require('./app/routes/csvRoute')
-app.use('/api',csvroute);   
+// const csvroute=require('./app/routes/csvRoute')
+// app.use('/api',csvroute); 
+
+app.use(require('./app/routes'));
+
 
 const PORT=process.env.PORT || 3006;
 app.listen(PORT, () => {
