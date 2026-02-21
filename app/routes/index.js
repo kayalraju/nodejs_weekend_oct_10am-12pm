@@ -9,6 +9,7 @@ const StudentEjsRouter=require('./studentEjsRoute');
 const IndexingRouter=require('./indexingRouter');
 const CsvRouter=require('./csvRoute');
 const ComparisonRouter=require('./ComparisonRoute');
+const EmployeeRouter=require('./pipelineRoute');    
 
 
 
@@ -19,5 +20,6 @@ router.use('/studentEjs',StudentEjsRouter);
 router.use('/indexing',IndexingRouter);
 router.use('/csv',CsvRouter);
 router.use('/comparison',ComparisonRouter);
+router.use('/pipeline',EmployeeRouter);
 
 module.exports=router
