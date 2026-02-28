@@ -10,7 +10,7 @@ const IndexingRouter=require('./indexingRouter');
 const CsvRouter=require('./csvRoute');
 const ComparisonRouter=require('./ComparisonRoute');
 const EmployeeRouter=require('./pipelineRoute');    
-
+const lookupRoute=require('./lookupRoute')
 
 
 router.use('/auth',AuthRouter);
@@ -21,5 +21,6 @@ router.use('/indexing',IndexingRouter);
 router.use('/csv',CsvRouter);
 router.use('/comparison',ComparisonRouter);
 router.use('/pipeline',EmployeeRouter);
+router.use(lookupRoute)
 
 module.exports=router
