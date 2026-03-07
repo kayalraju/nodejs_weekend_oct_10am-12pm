@@ -7,6 +7,8 @@ const cors=require('cors');
 const helmet=require('helmet');
 const morgan=require('morgan');
 const Limiter=require('./app/utils/rateLimit')
+const session=require('express-session');
+const cookieParser=require('cookie-parser')
 
 
 
@@ -30,26 +32,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 app.use('/uploads',express.static('uploads'));
 
-// const homeRoute=require('./app/routes/homeRoute')
-// app.use(homeRoute);
+ app.use(session({
+    secret: 'keyboardcat',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        maxAge: 1000 * 60 * 60 * 24 // 24 hours
+     }
+  }))
 
-
-// const comparisonRoute=require('./app/routes/ComparisonRoute')
-// app.use(comparisonRoute);
-
-// const authRoute=require('./app/routes/authRouter')
-// app.use('/api',authRoute);
-
-// const studentApiRoute=require('./app/routes/studenApi')
-// app.use('/api',studentApiRoute);
-// const IndexingRoute=require('./app/routes/indexingRouter')
-// app.use(IndexingRoute); 
-
-// const studentEjsRoute=require('./app/routes/studentEjsRoute')
-// app.use(studentEjsRoute);
-
-// const csvroute=require('./app/routes/csvRoute')
-// app.use('/api',csvroute); 
+  app.use(cookieParser())
 
 app.use(require('./app/routes'));
 

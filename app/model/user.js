@@ -25,6 +25,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    is_admin:{
+        type: String,
+        enum: ['user', 'admin'],
+        default:'user'
     }
 }, {
     timestamps: true
