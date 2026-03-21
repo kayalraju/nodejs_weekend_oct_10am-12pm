@@ -1,0 +1,37 @@
+{
+    "swaggerDefinition": {
+      "info": {
+        "title": "Student Api",
+        "version": "1.0.0",
+        "description": "Student API documentation create by webskitters",
+        "contact": {
+          "name": "Raju kayal"
+        },
+        "servers": [
+          "http://localhost:3005",
+          "https://webskitters.com"
+          
+        ]  
+      },
+      "tags": [
+        {
+            "name": "Student",
+            "description": "Student CRUD API"
+        },
+        {
+            "name": "Product",
+            "description": "Product API"
+        },
+        {
+            "name": "Auth",
+            "description": "Product Authentication API"
+        }
+    ],
+    "schemes": "['https', 'http']"
+      
+    },
+    "apis": [
+      "app.js",
+      "./app/routes/*.js"
+    ]
+  }

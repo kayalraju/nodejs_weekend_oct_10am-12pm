@@ -16,7 +16,7 @@ const authEjaRoute=require('./authEjsRoute')
 
 router.use('/auth',AuthRouter);
 router.use(HomeRouter);
-router.use('/student',StudentApiRouter);
+router.use('/api',StudentApiRouter);
 router.use('/studentEjs',StudentEjsRouter);
 router.use('/indexing',IndexingRouter);
 router.use('/csv',CsvRouter);

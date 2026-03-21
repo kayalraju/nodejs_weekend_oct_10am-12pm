@@ -9,6 +9,10 @@ const morgan=require('morgan');
 const Limiter=require('./app/utils/rateLimit')
 const session=require('express-session');
 const cookieParser=require('cookie-parser')
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const SwaggerOptions = require('./swagger.json');
+const swaggerDocument = swaggerJsDoc(SwaggerOptions);
 
 
 
@@ -32,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads',express.static(path.join(__dirname,'/uploads')));
 app.use('/uploads',express.static('uploads'));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
  app.use(session({
     secret: 'keyboardcat',
     resave: false,
