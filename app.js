@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const ejs=require('ejs');
 const path = require('path');
-const connectDB = require('./app/config/db');
+//const connectDB = require('./app/config/db');
 const cors=require('cors');
 const helmet=require('helmet');
 const morgan=require('morgan');
@@ -13,11 +13,12 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const SwaggerOptions = require('./swagger.json');
 const swaggerDocument = swaggerJsDoc(SwaggerOptions);
+const sequelize = require("./app/config/db");
 
 
 
 const app = express();
-connectDB();
+// connectDB();
 
 app.use(helmet());
 //call db
@@ -52,6 +53,13 @@ app.use(require('./app/routes'));
 
 
 const PORT=process.env.PORT || 3006;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
+sequelize.authenticate()
+  .then(() => {
+    console.log("✅ Database connected");
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  })
+  .catch(err => console.error("❌ DB connection error:", err));

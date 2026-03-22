@@ -12,8 +12,10 @@ const ComparisonRouter=require('./ComparisonRoute');
 const EmployeeRouter=require('./pipelineRoute');    
 const lookupRoute=require('./lookupRoute')
 const authEjaRoute=require('./authEjsRoute')
+const teacherRoute=require('./teacherRoute')
 
 
+router.use(teacherRoute)
 router.use('/auth',AuthRouter);
 router.use(HomeRouter);
 router.use('/api',StudentApiRouter);
